@@ -41,3 +41,19 @@ Sub フォルダ一括作成()
         Resume Next
     End With
 End Sub
+Sub フォルダ名書き出し()
+    Dim FSO As New FileSystemObject
+    Dim 文 As String
+    Dim 行 As Long
+    Dim 起点フォルダ As Folder, フォルダ As Folder
+    With Sheets("入力フォーム")
+        文 = "本ツールと同階層にあるフォルダ名をA2セル以下に書き出します" & vbCrLf & vbCrLf & "処理を実行してよろしいですか？"
+        If MsgBox(文, vbYesNo) <> vbYes Then Exit Sub
+        Set 起点フォルダ = FSO.GetFolder(ThisWorkbook.Path)
+        行 = 1
+        For Each フォルダ In 起点フォルダ.SubFolders
+            行 = 行 + 1
+            .Cells(行, 1) = フォルダ.Name
+        Next
+    End With
+End Sub
